@@ -10,8 +10,12 @@ router.post("/info", async (req, res) => {
         return res.status(400).json({ error: "missing url" });
     }
 
+    console.log("[/api/info] Extracting metadata for:", url);
+
     try {
         const data = await extractVideo(url);
+
+        console.log("[/api/info] Extracted title:", data.title, "formats count:", data.formats?.length);
 
         const formats = (data.formats || [])
             .filter((f: any) => f.url)
@@ -45,6 +49,8 @@ router.post("/download", async (req, res) => {
     if (!url || !formatId) {
         return res.status(400).json({ error: "missing url or formatId" });
     }
+
+    console.log("[/api/download] Downloading with formatId:", formatId, "for url:", url);
 
     try {
         const proc = downloadVideo(url, formatId);
