@@ -8,6 +8,8 @@ export function extractVideo(url: string): Promise<any> {
             "-J",
             "--no-playlist",
             "--no-warnings",
+            "--cookies-from-browser",
+            "chrome",
             url
         ];
 
@@ -42,6 +44,8 @@ export function downloadVideo(url: string, formatId: string): ChildProcess {
         "-f", formatId,
         "--no-playlist",
         "--no-warnings",
+        "--cookies-from-browser",
+        "chrome",
         url
     ], { shell: false });
 }
