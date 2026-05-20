@@ -1,0 +1,17 @@
+services:
+
+  api:
+    build: .
+
+    container_name: marin-api
+
+    ports:
+      - "3000:3000"
+
+    restart: unless-stopped
+
+    environment:
+      NODE_ENV: production
+
+    # optional but recommended for stability
+    init: true

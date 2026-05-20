@@ -1,0 +1,36 @@
+import { spawn } from "node:child_process";
+
+export function extractVideo(url: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+
+        const args = [
+            "-J",
+            "--no-playlist",
+            "--no-warnings",
+            url
+        ];
+
+        const p = spawn("yt-dlp", args, {
+            shell: false
+        });
+
+        let out = "";
+        let err = "";
+
+        p.stdout.on("data", d => out += d.toString());
+        p.stderr.on("data", d => err += d.toString());
+
+        p.on("close", code => {
+            if (code !== 0) {
+                return reject(new Error(err));
+            }
+
+            try {
+                resolve(JSON.parse(out));
+            } catch {
+                reject(new Error("invalid json"));
+            }
+        });
+
+    });
+}
