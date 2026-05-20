@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import type { ChildProcess } from "node:child_process";
 
 export function extractVideo(url: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -33,4 +34,14 @@ export function extractVideo(url: string): Promise<any> {
         });
 
     });
+}
+
+export function downloadVideo(url: string, formatId: string): ChildProcess {
+    return spawn("yt-dlp", [
+        "-o", "-",
+        "-f", formatId,
+        "--no-playlist",
+        "--no-warnings",
+        url
+    ], { shell: false });
 }

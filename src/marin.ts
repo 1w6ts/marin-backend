@@ -16,6 +16,6 @@ app.get("/health", (_, res) => {
 
 app.use("/api", mediaRoute);
 
-app.listen(9090, () => {
-    console.log("running on 9090");
+app.listen(9000, () => {
+    console.log("running on 9000");
 });

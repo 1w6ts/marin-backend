@@ -1,7 +1,6 @@
 {
   "name": "marin-backend",
-  "module": "index.ts",
-  "type": "module",
+  "module": "src/marin.ts",
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",

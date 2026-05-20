@@ -6,7 +6,7 @@ services:
     container_name: marin-api
 
     ports:
-      - "3000:3000"
+      - "9000:9000"
 
     restart: unless-stopped
 
@@ -15,3 +15,7 @@ services:
 
     # optional but recommended for stability
     init: true
+
+
+
+
