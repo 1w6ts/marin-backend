@@ -1,10 +1,11 @@
 import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const COOKIES_PATH = join(process.cwd(), "cookies.txt");
-console.log("Cookies path resolved to:", COOKIES_PATH, "exists:", existsSync(COOKIES_PATH));
+const cookiesFileExists = existsSync(COOKIES_PATH) && statSync(COOKIES_PATH).isFile();
+console.log("Cookies path resolved to:", COOKIES_PATH, "exists and is file:", cookiesFileExists);
 
 export function extractVideo(url: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -16,7 +17,7 @@ export function extractVideo(url: string): Promise<any> {
             url
         ];
 
-        if (existsSync(COOKIES_PATH)) {
+        if (cookiesFileExists) {
             args.push("--cookies", COOKIES_PATH);
         }
 
@@ -74,7 +75,7 @@ export function downloadVideo(url: string, formatId: string): ChildProcess {
         url
     ];
 
-    if (existsSync(COOKIES_PATH)) {
+    if (cookiesFileExists) {
         args.push("--cookies", COOKIES_PATH);
     }
 

@@ -18,7 +18,3 @@ services:
 
     # optional but recommended for stability
     init: true
-
-
-
-
