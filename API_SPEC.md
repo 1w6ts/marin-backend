@@ -2,6 +2,22 @@
 
 base url is saved in .env as CASCADE_URL
 
+## Setup Requirements
+
+### Cookies for YouTube (Optional but Recommended)
+
+YouTube may block requests without authentication. To fix this, place a `cookies.txt` file in the project root.
+
+**How to get cookies.txt:**
+1. Install the "Get cookies.txt" extension in your browser (Chrome/Firefox)
+2. Go to YouTube (logged into your alt account)
+3. Click the extension and export cookies as `cookies.txt`
+4. Place the file at the project root (next to `package.json`)
+
+The backend will automatically use the cookies if the file exists. Without it, some videos may fail with bot detection.
+
+**Note:** `cookies.txt` is in `.gitignore` — never commit it with your credentials.
+
 ## Endpoints
 
 ### 1. Health Check

@@ -1,5 +1,9 @@
 import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+const COOKIES_PATH = join(process.cwd(), "cookies.txt");
 
 export function extractVideo(url: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -8,10 +12,12 @@ export function extractVideo(url: string): Promise<any> {
             "-J",
             "--no-playlist",
             "--no-warnings",
-            "--cookies-from-browser",
-            "chrome",
             url
         ];
+
+        if (existsSync(COOKIES_PATH)) {
+            args.push("--cookies", COOKIES_PATH);
+        }
 
         const p = spawn("yt-dlp", args, {
             shell: false
@@ -39,13 +45,17 @@ export function extractVideo(url: string): Promise<any> {
 }
 
 export function downloadVideo(url: string, formatId: string): ChildProcess {
-    return spawn("yt-dlp", [
+    const args = [
         "-o", "-",
         "-f", formatId,
         "--no-playlist",
         "--no-warnings",
-        "--cookies-from-browser",
-        "chrome",
         url
-    ], { shell: false });
+    ];
+
+    if (existsSync(COOKIES_PATH)) {
+        args.push("--cookies", COOKIES_PATH);
+    }
+
+    return spawn("yt-dlp", args, { shell: false });
 }
