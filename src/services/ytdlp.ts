@@ -14,6 +14,7 @@ export function extractVideo(url: string): Promise<any> {
             "-J",
             "--no-playlist",
             "--no-warnings",
+            "--no-check-formats",
             url
         ];
 
