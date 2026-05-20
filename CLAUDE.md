@@ -1,0 +1,1 @@
+be concise please, don't overthink. also we do NOT store anything on the server. needs to be quick.
