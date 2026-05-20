@@ -13,6 +13,9 @@ services:
     environment:
       NODE_ENV: production
 
+    volumes:
+      - ./cookies.txt:/marin-bgdoc/cookies.txt
+
     # optional but recommended for stability
     init: true
 
