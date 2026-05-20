@@ -24,13 +24,28 @@ export function extractVideo(url: string): Promise<any> {
             shell: false
         });
 
+        console.log("[yt-dlp] Process spawned with PID:", p.pid);
+
         let out = "";
         let err = "";
 
-        p.stdout.on("data", d => out += d.toString());
-        p.stderr.on("data", d => err += d.toString());
+        const timeout = setTimeout(() => {
+            p.kill();
+            console.error("[yt-dlp] Timeout after 30s");
+            reject(new Error("yt-dlp timeout after 30s"));
+        }, 30000);
+
+        p.stdout.on("data", d => {
+            console.log("[yt-dlp stdout]:", d.toString().slice(0, 200));
+            out += d.toString();
+        });
+        p.stderr.on("data", d => {
+            console.log("[yt-dlp stderr]:", d.toString().slice(0, 200));
+            err += d.toString();
+        });
 
         p.on("close", code => {
+            clearTimeout(timeout);
             if (code !== 0) {
                 return reject(new Error(err));
             }
@@ -40,6 +55,11 @@ export function extractVideo(url: string): Promise<any> {
             } catch {
                 reject(new Error("invalid json"));
             }
+        });
+
+        p.on("error", (err) => {
+            clearTimeout(timeout);
+            reject(err);
         });
 
     });
