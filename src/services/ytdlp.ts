@@ -2,12 +2,9 @@ import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const COOKIES_PATH = join(__dirname, "../../cookies.txt");
+const COOKIES_PATH = join(process.cwd(), "cookies.txt");
+console.log("Cookies path resolved to:", COOKIES_PATH, "exists:", existsSync(COOKIES_PATH));
 
 export function extractVideo(url: string): Promise<any> {
     return new Promise((resolve, reject) => {
